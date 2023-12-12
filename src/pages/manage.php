@@ -37,7 +37,9 @@
         <!-- Title -->
         <h2 class="text-4xl font-bold my-4">Manage Inventory</h2>
         <!-- Management dashboard -->
-        <div class="grid grid-col-"></div>
+        <div class="grid grid-col-">
+            
+        </div>
     </div>
 </body>
 

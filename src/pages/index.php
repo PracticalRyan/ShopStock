@@ -68,9 +68,9 @@
       </a>
       <a href="#" class="block col-span-2 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
         <p class="text-xl font-bold text-gray-700">Revenue</p>
-        <h5 class="mb-2 text-4xl font-bold tracking-tight text-green-700 mb-3">1230฿</h5>
+        <h5 class="mb-3 text-4xl font-bold tracking-tight text-green-700">1230฿</h5>
         <p class="text-xl font-bold text-gray-700">Costs</p>
-        <h5 class="mb-2 text-4xl font-bold tracking-tight text-red-700">230฿</h5>
+        <h5 class="mb-3 text-4xl font-bold tracking-tight text-red-700">230฿</h5>
       </a>
       <a href="#" class="block col-span-3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">History</h5>
