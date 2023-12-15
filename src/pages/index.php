@@ -7,7 +7,7 @@
   <link href="/dist/output.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-slate-100">
   <!-- Navigation bar -->
   <nav class="bg-gray-800 border-gray-200">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">

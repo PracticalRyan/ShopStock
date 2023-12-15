@@ -7,7 +7,7 @@
     <link href="/dist/output.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="flex flex-col h-screen bg-slate-100">
     <!-- Navigation bar -->
     <nav class="bg-gray-800 border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -33,13 +33,62 @@
         </div>
     </nav>
     <!-- Content container -->
-    <div class="mx-4">
+    <div class="flex flex-col mx-4 p-4 text-lg h-full">
         <!-- Title -->
         <h2 class="text-4xl font-bold my-4">Manage Inventory</h2>
         <!-- Management dashboard -->
-        <div class="grid grid-col-">
-            
-        </div>
+        <grid class="grid grid-cols-4 h-full gap-2">
+            <div class="col-span-3 bg-white rounded-lg shadow-lg p-3">
+                <table class="table-fixed text-left w-full">
+                    <thead class="border">
+                        <tr class="border ">
+                            <th class="w-5/12">Product Name</th>
+                            <th class="w-3/12 ">Product Code</th>
+                            <th class="w-1/12 ">Stock</th>
+                            <th class="w-1/12 ">Cost</th>
+                            <th class="w-1/12">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border">
+                        <tr class="border">
+                            <td class="p-2">Nestle Pure Life Bottled Water </td>
+                            <td class="p-2">00000001</td>
+                            <td class="p-2">46</td>
+                            <td class="p-2">8</td>
+                            <td class="p-2">12</td>
+                        </tr>
+                        <tr class="border">
+                            <td class="p-2">Panasonic AA Batteries</td>
+                            <td class="p-2">00000002</td>
+                            <td class="p-2">18</td>
+                            <td class="p-2">30</td>
+                            <td class="p-2">40</td>
+                        </tr>
+                        <tr class="border">
+                            <td class="p-2">Notebooks</td>
+                            <td class="p-2">00000003</td>
+                            <td class="p-2">23</td>
+                            <td class="p-2">15</td>
+                            <td class="p-2">25</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
+                <h2 class="text-3xl font-bold">Add</h2>
+                <div class="flex flex-col">
+                    <label for="ID">Product Code</label>
+                    <input class="border border-gray-800 rounded-md" type="text" id="fname" name="fname">
+                </div>
+                <div class="flex flex-col">
+                    <label for="Amount">Amount</label>
+                    <input class="border border-gray-800 rounded-md" type="text" id="lname" name="lname">
+                </div>
+                <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Add stock</button>
+            </div>
+
+        </grid>
+    </div>
     </div>
 </body>
 
