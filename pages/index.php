@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/dist/output.css" rel="stylesheet">
-  <script src="/src/static/page.js"></script>
-
+  <link href="/css/output.css" rel="stylesheet">
+  <script src="/static/page.js"></script>
 </head>
 
 <body class="bg-slate-100">
@@ -81,7 +80,6 @@
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">History</h5>
       </a>
     </div>
-
   </div>
 </body>
 

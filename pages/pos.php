@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/dist/output.css" rel="stylesheet">
-    <script src="/src/static/page.js"></script>
+    <link href="/css/output.css" rel="stylesheet">
+    <script src="/static/page.js"></script>
 </head>
 
 <body class="flex flex-col h-screen bg-slate-100">
@@ -40,6 +40,42 @@
     <div class="flex flex-col mx-4 p-4 text-lg h-full bg-slate-100">
         <!-- Title -->
         <h2 class="text-4xl font-bold my-4">Point of Sale</h2>
+        <!-- Management dashboard -->
+        <grid class="grid grid-cols-4 h-full gap-2">
+            <div class="col-span-3 bg-white rounded-lg shadow-lg p-3">
+                <table class="table-fixed text-left w-full">
+                    <thead class="border">
+                        <tr class="border ">
+                            <th class="w-8/12">Product Name</th>
+                            <th class="w-2/12 ">Amount</th>
+                            <th class="w-2/12">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border">
+                        <tr class="border">
+                            <td class="p-2">Nestle Pure Life Bottled Water </td>
+                            <td class="p-2">8</td>
+                            <td class="p-2">12</td>
+                        </tr>
+                        <tr class="border">
+                            <td class="p-2">Panasonic AA Batteries</td>
+                            <td class="p-2">18</td>
+                            <td class="p-2">40</td>
+                        </tr>
+                        <tr class="border">
+                            <td class="p-2">Notebooks</td>
+                            <td class="p-2">23</td>
+                            <td class="p-2">25</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
+                <h2 class="text-3xl font-bold">Payment</h2>
+                <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
+                <button class="bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
+            </div>
+        </grid>
     </div>
 </body>
 

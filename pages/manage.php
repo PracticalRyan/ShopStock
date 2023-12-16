@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/dist/output.css" rel="stylesheet">
-    <script src="/src/static/page.js"></script>
-
+    <link href="/css/output.css" rel="stylesheet">
+    <script src="/static/page.js"></script>
 </head>
 
 <body class="flex flex-col h-screen bg-slate-100">
@@ -91,9 +90,7 @@
                 </div>
                 <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Add stock</button>
             </div>
-
         </grid>
-    </div>
     </div>
 </body>
 
