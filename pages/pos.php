@@ -70,10 +70,22 @@
                     </tbody>
                 </table>
             </div>
-            <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
-                <h2 class="text-3xl font-bold">Payment</h2>
-                <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
-                <button class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
+            <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white gap-5">
+                <!-- Add Product -->
+                <div class="flex flex-col">
+                    <h2 class="text-3xl font-bold">Add</h2>
+                    <label for="ID">Product Code</label>
+                    <input class="border border-gray-800 rounded-md" type="text" id="fname" name="fname">
+                    <label for="Amount">Amount</label>
+                    <input class="border border-gray-800 rounded-md" type="text" id="lname" name="lname">
+                    <button class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Add product</button>
+                </div>
+                <!-- Payment  -->
+                <div class="flex flex-col">
+                    <h2 class="text-3xl font-bold">Payment</h2>
+                    <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
+                    <button class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
+                </div>
             </div>
         </grid>
     </div>
