@@ -15,20 +15,23 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"esbenp.prettier-vscode",
+				"zobo.php-intellisense"
 			],
 			"settings": {
 				"tailwindCSS.includeLanguages": {
 					"plaintext": "php"
-				}
+				},
+				"editor.defaultFormatter": "esbenp.prettier-vscode"
 			}
 		}
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {}
-	}
+	},
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+	"postCreateCommand": "npm install -D tailwindcss"
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
