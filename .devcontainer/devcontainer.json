@@ -29,8 +29,7 @@
 		}
 	},
 	"features": {
-		"ghcr.io/devcontainers/features/node:1": {},
-		"ghcr.io/itsmechlark/features/postgresql:1": {}
+		"ghcr.io/devcontainers/features/node:1": {}
 	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install"
