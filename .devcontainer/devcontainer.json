@@ -23,7 +23,8 @@
 				"tailwindCSS.includeLanguages": {
 					"plaintext": "php"
 				},
-				"editor.defaultFormatter": "esbenp.prettier-vscode"
+				"editor.defaultFormatter": "esbenp.prettier-vscode",
+				"css.validate": false
 			}
 		}
 	},
