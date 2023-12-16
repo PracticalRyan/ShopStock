@@ -9,5 +9,5 @@ php -S 127.0.0.1:8000
 Run tailwindCSS
 
 ```
-npx tailwindcss -i ./input.css -o ./css/output.css --watch
+npx tailwindcss -i ./css/input.css -o ./css/output.css --watch
 ```

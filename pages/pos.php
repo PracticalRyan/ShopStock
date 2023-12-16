@@ -72,8 +72,8 @@
             </div>
             <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
                 <h2 class="text-3xl font-bold">Payment</h2>
-                <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
-                <button class="bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
+                <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
+                <button class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
             </div>
         </grid>
     </div>
