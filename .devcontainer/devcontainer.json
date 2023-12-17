@@ -2,12 +2,12 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/php
 {
 	"name": "PHP",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"forwardPorts": [
-		8080
+		8080,
+		80
 	],
 	"customizations": {
 		"vscode": {
@@ -20,7 +20,6 @@
 				"tailwindCSS.includeLanguages": {
 					"plaintext": "php"
 				},
-				"editor.defaultFormatter": "esbenp.prettier-vscode",
 				"css.validate": false,
 				"php.validate.executablePath": "/usr/local/bin/php"
 			}

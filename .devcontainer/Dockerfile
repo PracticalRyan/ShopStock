@@ -13,3 +13,6 @@ RUN yes | pecl install xdebug \
 RUN curl -sSL https://getcomposer.org/installer | php \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
+
+# Install mysqli
+RUN docker-php-ext-install mysqli
