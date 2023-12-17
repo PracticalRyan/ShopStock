@@ -8,6 +8,21 @@
     <script src="/static/page.js"></script>
 </head>
 
+<!-- Initialize database connection -->
+<?php
+    $servername = "db";
+    $username = "root";
+    $password = "mariadb";
+    $database = "shopstock"; 
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
+    // Check connection
+    if ($conn->connect_error) {
+    die("Connection failed, please check your database connection before continuing: \n" . $conn->connect_error);
+  }
+?>
+
 <body class="flex flex-col h-screen bg-slate-100">
     <!-- Navigation bar -->
     <nav class="bg-gray-800 border-gray-200">
@@ -53,33 +68,33 @@
                             <th class="w-1/12">Price</th>
                         </tr>
                     </thead>
+                    <!-- Table fields fetched from DB -->
                     <tbody class="border">
-                        <tr class="border">
-                            <td class="p-2">Nestle Pure Life Bottled Water </td>
-                            <td class="p-2">00000001</td>
-                            <td class="p-2">46</td>
-                            <td class="p-2">8</td>
-                            <td class="p-2">12</td>
-                        </tr>
-                        <tr class="border">
-                            <td class="p-2">Panasonic AA Batteries</td>
-                            <td class="p-2">00000002</td>
-                            <td class="p-2">18</td>
-                            <td class="p-2">30</td>
-                            <td class="p-2">40</td>
-                        </tr>
-                        <tr class="border">
-                            <td class="p-2">Notebooks</td>
-                            <td class="p-2">00000003</td>
-                            <td class="p-2">23</td>
-                            <td class="p-2">15</td>
-                            <td class="p-2">25</td>
-                        </tr>
+                    <?php
+                    $sql = "SELECT code, name, stock, cost, price FROM products";
+                    $result = mysqli_query($conn, $sql);
+                    // Show fields
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                            echo '<tr class="border">';
+                            echo '<td class="p-2">' . $row["name"] . '</td>';
+                            echo '<td class="p-2">' . $row["code"] . '</td>';
+                            echo '<td class="p-2">' . $row["stock"] . '</td>';
+                            echo '<td class="p-2">' . $row["cost"] . '</td>';
+                            echo '<td class="p-2">' . $row["price"] . '</td>';
+                            echo '</tr>';                        
+                        }
+                      } else {
+                        echo "0 results";
+                      }
+                      $conn->close();    
+                    ?>
                     </tbody>
                 </table>
             </div>
             <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
-                <h2 class="text-3xl font-bold">Add</h2>
+                <h2 class="text-3xl font-bold">Edit Stock</h2>
                 <div class="flex flex-col">
                     <label for="ID">Product Code</label>
                     <input class="border border-gray-800 rounded-md" type="text" id="fname" name="fname">
