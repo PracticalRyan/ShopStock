@@ -88,22 +88,46 @@
                       } else {
                         echo "0 results";
                       }
-                      $conn->close();    
                     ?>
                     </tbody>
                 </table>
             </div>
             <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white">
-                <h2 class="text-3xl font-bold">Edit Stock</h2>
-                <div class="flex flex-col">
-                    <label for="ID">Product Code</label>
-                    <input class="border border-gray-800 rounded-md" type="text" id="fname" name="fname">
-                </div>
-                <div class="flex flex-col">
-                    <label for="Amount">Amount</label>
-                    <input class="border border-gray-800 rounded-md" type="text" id="lname" name="lname">
-                </div>
-                <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Add stock</button>
+                <form class="flex flex-col" action="manage.php" method="post">
+                    <h2 class="text-3xl font-bold">Add stock</h2>
+                    <div class="flex flex-col">
+                        <label for="ID">Product Code</label>
+                        <input class="border border-gray-800 rounded-md" type="text" name="pcode">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="Amount">Amount</label>
+                        <input class="border border-gray-800 rounded-md" type="text" name="amount">
+                    </div>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit" name="edit">Add stock</button>
+                </form>    
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    // collect value of input field
+                    $pcode = $_REQUEST['pcode'];
+                    $amount = (int) $_REQUEST['amount'];
+
+                    if (empty($pcode) or empty($amount)) {
+                        echo "Please enter all fields";
+                    } else {
+                        $initial = (int) $conn->query("SELECT stock FROM products WHERE code=$pcode")->fetch_assoc()["stock"] ;
+                        $sql = "UPDATE products SET stock=$amount+$initial WHERE code=$pcode";
+                    }
+
+                    // Check if query was successful
+                    if ($conn->query($sql) === TRUE ) {
+                        echo '<p class="text-green-600">Record updated successfully</p>';
+                        echo("<meta http-equiv='refresh' content='1'>");
+                      } else {
+                        echo "Error updating record: " . $conn->error;
+                      }                      
+                }
+                $conn->close();    
+                ?>
             </div>
         </grid>
     </div>
