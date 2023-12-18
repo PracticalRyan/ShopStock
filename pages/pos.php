@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/output.css" rel="stylesheet">
     <script src="/static/page.js"></script>
+    <script src="/static/promptpay-qr.js"></script>
+    <script src="/static/promptpay.js"></script>
+    <script src="/static/qrcode.js"></script>
+
+
 </head>
 
 <body class="flex flex-col h-screen bg-slate-100">
@@ -84,8 +89,9 @@
                 <div class="flex flex-col">
                     <h2 class="text-3xl font-bold">Payment</h2>
                     <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
-                    <button class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">PromptPay</button>
+                    <button onclick="generate_promptpay()" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">PromptPay</button>
                 </div>
+                <div id="qrcode"></div>
             </div>
         </grid>
     </div>
