@@ -7,7 +7,6 @@
     <link href="/css/output.css" rel="stylesheet">
     <script src="/static/page.js"></script>
 </head>
-
 <!-- Initialize database connection -->
 <?php
     $servername = "db";
@@ -23,6 +22,27 @@
   }
 ?>
 
+<!-- Edit data fields if POST -->
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // collect value of input field
+        $pcode = $_REQUEST['pcode'];
+        $amount = (int) $_REQUEST['amount'];
+
+        if (empty($pcode) or empty($amount)) {
+            echo "Please enter all fields";
+        } else {
+            $initial = (int) $conn->query("SELECT stock FROM products WHERE code=$pcode")->fetch_assoc()["stock"] ;
+            $sql = "UPDATE products SET stock=$amount+$initial WHERE code=$pcode";
+        }
+
+        // Check if query was successful
+        if ($conn->query($sql) === TRUE ) {
+            } else {
+            echo "Error updating record: " . $conn->error;
+            }                      
+    }
+?>
 <body class="flex flex-col h-screen bg-slate-100">
     <!-- Navigation bar -->
     <nav class="bg-gray-800 border-gray-200">
@@ -105,29 +125,6 @@
                     </div>
                     <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit" name="edit">Add stock</button>
                 </form>    
-                <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    // collect value of input field
-                    $pcode = $_REQUEST['pcode'];
-                    $amount = (int) $_REQUEST['amount'];
-
-                    if (empty($pcode) or empty($amount)) {
-                        echo "Please enter all fields";
-                    } else {
-                        $initial = (int) $conn->query("SELECT stock FROM products WHERE code=$pcode")->fetch_assoc()["stock"] ;
-                        $sql = "UPDATE products SET stock=$amount+$initial WHERE code=$pcode";
-                    }
-
-                    // Check if query was successful
-                    if ($conn->query($sql) === TRUE ) {
-                        echo '<p class="text-green-600">Record updated successfully</p>';
-                        echo("<meta http-equiv='refresh' content='1'>");
-                      } else {
-                        echo "Error updating record: " . $conn->error;
-                      }                      
-                }
-                $conn->close();    
-                ?>
             </div>
         </grid>
     </div>
