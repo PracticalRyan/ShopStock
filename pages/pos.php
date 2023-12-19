@@ -9,9 +9,50 @@
     <script src="/static/promptpay-qr.js"></script>
     <script src="/static/promptpay.js"></script>
     <script src="/static/qrcode.js"></script>
-
-
 </head>
+
+<!-- Initialize database connection -->
+<?php
+    $servername = "db";
+    $username = "root";
+    $password = "mariadb";
+    $database = "shopstock"; 
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
+    // Check connection
+    if ($conn->connect_error) {
+    die("Connection failed, please check your database connection before continuing: \n" . $conn->connect_error);
+  }
+?>
+
+<!-- Edit data fields on POST -->
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // collect value of input field
+        $pcode = $_REQUEST['pcode'];
+        $amount = (int) $_REQUEST['amount'];
+
+        if (empty($pcode) or empty($amount)) {
+            echo "Please enter all fields";
+        } else {
+            $result = $conn->query("SELECT amount FROM point_of_sale WHERE product_code=$pcode");
+            if ($result->num_rows > 0) {
+                $initial = (int) $result->fetch_assoc()["amount"];
+                $result = $conn->query("UPDATE point_of_sale SET amount=$amount+$initial WHERE product_code=$pcode");
+            }
+            else {
+                $result = $conn->query("INSERT INTO point_of_sale (product_code, amount) VALUES ($pcode, $amount)");
+            }
+        }
+
+        // Check if query was successful
+        if ($result === TRUE) {
+            } else {
+            echo "Error updating record: " . $conn->error;
+            }                      
+    }
+?>
 
 <body class="flex flex-col h-screen bg-slate-100">
     <!-- Navigation bar -->
@@ -48,46 +89,71 @@
         <!-- Management dashboard -->
         <grid class="grid grid-cols-4 h-full gap-2">
             <div class="col-span-3 bg-white rounded-lg shadow-lg p-3">
-                <table class="table-fixed text-left w-full">
+            <table class="table-fixed text-left w-full">
                     <thead class="border">
                         <tr class="border ">
                             <th class="w-8/12">Product Name</th>
-                            <th class="w-2/12 ">Amount</th>
                             <th class="w-2/12">Price</th>
+                            <th class="w-2/12 ">Amount</th>
+                            <th class="w-2/12">Total</th>
                         </tr>
                     </thead>
+                    <!-- Table fields fetched from DB -->
                     <tbody class="border">
-                        <tr class="border">
-                            <td class="p-2">Nestle Pure Life Bottled Water </td>
-                            <td class="p-2">8</td>
-                            <td class="p-2">12</td>
-                        </tr>
-                        <tr class="border">
-                            <td class="p-2">Panasonic AA Batteries</td>
-                            <td class="p-2">18</td>
-                            <td class="p-2">40</td>
-                        </tr>
-                        <tr class="border">
-                            <td class="p-2">Notebooks</td>
-                            <td class="p-2">23</td>
-                            <td class="p-2">25</td>
-                        </tr>
+                    <?php
+                    $sql = "SELECT point_of_sale.amount, products.name, products.price FROM point_of_sale INNER JOIN products ON products.code=point_of_sale.product_code;";
+                    $result = mysqli_query($conn, $sql);
+                    // Show fields
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $total_cost= (int) $row["amount"] * (int) $row["price"];
+                            echo '<tr class="border">';
+                            echo '<td class="p-2">' . $row["name"] . '</td>';
+                            echo '<td class="p-2">' . $row["price"] . '</td>';
+                            echo '<td class="p-2">' . $row["amount"] . '</td>';
+                            echo '<td class="p-2">' . $total_cost . '</td>';
+                            echo '</tr>';                        
+                        }
+                      } else {
+                        echo "0 results";
+                      }
+                    ?>
                     </tbody>
                 </table>
             </div>
             <div class="flex flex-col col-span-1 shadow-xl p-4 rounded-lg bg-white gap-5">
                 <!-- Add Product -->
-                <div class="flex flex-col">
+                <form class="flex flex-col" action="pos.php" method="post">
                     <h2 class="text-3xl font-bold">Add</h2>
                     <label for="ID">Product Code</label>
-                    <input class="border border-gray-800 rounded-md" type="text" id="fname" name="fname">
+                    <input class="border border-gray-800 rounded-md" type="text" id="fname" name="pcode">
                     <label for="Amount">Amount</label>
-                    <input class="border border-gray-800 rounded-md" type="text" id="lname" name="lname">
+                    <input class="border border-gray-800 rounded-md" type="text" id="lname" name="amount">
                     <button class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Add product</button>
-                </div>
+                </form>
                 <!-- Payment  -->
                 <div class="flex flex-col">
                     <h2 class="text-3xl font-bold">Payment</h2>
+                    <?php
+                    $sql = "SELECT point_of_sale.amount, products.price FROM point_of_sale INNER JOIN products ON products.code=point_of_sale.product_code;";
+                    $result = mysqli_query($conn, $sql);
+                    $total_price = 0;
+                    // Show fields
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $total_cost= (int) $row["amount"] * (int) $row["price"];
+                            $total_price = $total_price + $total_cost;
+                        }
+                      } else {
+                        echo "0 results";
+                      }
+                      echo "Total:$total_price"
+                    ?>
+                    <script>
+                        var prompt_price = <?php echo json_encode($total_price); ?>;
+                    </script>
                     <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
                     <button onclick="generate_promptpay()" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">PromptPay</button>
                 </div>

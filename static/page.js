@@ -3,7 +3,10 @@ function navbarclicked() {
   navitems.classList.toggle("hidden");
 }
 
+var qr_code;
+
 function generate_promptpay() {
-  var promptpay_text = PromptPayQR.gen_text("8888888888", 235);
+  document.getElementById("qrcode").replaceChildren();
+  var promptpay_text = PromptPayQR.gen_text("0888888888", prompt_price);
   new QRCode(document.getElementById("qrcode"), promptpay_text);
 }

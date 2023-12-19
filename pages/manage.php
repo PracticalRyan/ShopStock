@@ -43,6 +43,7 @@
             }                      
     }
 ?>
+
 <body class="flex flex-col h-screen bg-slate-100">
     <!-- Navigation bar -->
     <nav class="bg-gray-800 border-gray-200">
