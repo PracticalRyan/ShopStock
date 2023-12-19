@@ -29,28 +29,41 @@
 <!-- Edit data fields on POST -->
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // collect value of input field
-        $pcode = $_REQUEST['pcode'];
-        $amount = (int) $_REQUEST['amount'];
-
-        if (empty($pcode) or empty($amount)) {
-            echo "Please enter all fields";
-        } else {
-            $result = $conn->query("SELECT amount FROM point_of_sale WHERE product_code=$pcode");
-            if ($result->num_rows > 0) {
-                $initial = (int) $result->fetch_assoc()["amount"];
-                $result = $conn->query("UPDATE point_of_sale SET amount=$amount+$initial WHERE product_code=$pcode");
+        if(isset($_POST['complete'])) {
+            $shopping_cart = $conn->query("SELECT product_code, amount FROM point_of_sale");
+            while($row = mysqli_fetch_assoc($shopping_cart)) {
+                $product_code = $row["product_code"];
+                $bought= $row["amount"];
+                $stock = (int) $conn->query("SELECT stock FROM products WHERE code=$product_code")->fetch_assoc()["stock"];
+                $conn->query("UPDATE products SET stock=$stock-$bought WHERE code=$product_code");
+                $conn->query("DELETE FROM point_of_sale WHERE product_code=$product_code");
             }
-            else {
-                $result = $conn->query("INSERT INTO point_of_sale (product_code, amount) VALUES ($pcode, $amount)");
-            }
+            echo 'complete';
         }
+        else {
+            // collect value of input field
+            $pcode = $_REQUEST['pcode'];
+            $amount = (int) $_REQUEST['amount'];
 
-        // Check if query was successful
-        if ($result === TRUE) {
+            if (empty($pcode) or empty($amount)) {
+                echo "Please enter all fields";
             } else {
-            echo "Error updating record: " . $conn->error;
-            }                      
+                $result = $conn->query("SELECT amount FROM point_of_sale WHERE product_code=$pcode");
+                if ($result->num_rows > 0) {
+                    $initial = (int) $result->fetch_assoc()["amount"];
+                    $result = $conn->query("UPDATE point_of_sale SET amount=$amount+$initial WHERE product_code=$pcode");
+                }
+                else {
+                    $result = $conn->query("INSERT INTO point_of_sale (product_code, amount) VALUES ($pcode, $amount)");
+                }
+            }
+
+            // Check if query was successful
+            if ($result === TRUE) {
+                } else {
+                echo "Error updating record: " . $conn->error;
+                }    
+        }                  
     }
 ?>
 
@@ -147,14 +160,15 @@
                             $total_price = $total_price + $total_cost;
                         }
                       } else {
-                        echo "0 results";
                       }
                       echo "Total:$total_price"
                     ?>
                     <script>
                         var prompt_price = <?php echo json_encode($total_price); ?>;
                     </script>
-                    <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit">Cash</button>
+                    <form method="post" class="flex flex-col">
+                        <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-2 rounded-md mt-4" name="complete" type="submit">Payment Complete</button>
+                    </form>
                     <button onclick="generate_promptpay()" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">PromptPay</button>
                 </div>
                 <div id="qrcode"></div>
