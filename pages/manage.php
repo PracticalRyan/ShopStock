@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/page.js"></script>
     <link href="/css/output.css" rel="stylesheet">
     <link href="/css/barcode.css" rel="stylesheet">
-
-    <script src="/static/page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.js"></script>
 </head>
 <!-- Initialize database connection -->
@@ -77,10 +76,8 @@
     </nav>
     <!-- Content container -->
     <div class="flex flex-col mx-4 p-4 text-lg h-full">
-        <!-- Title -->
         <div id="barcode_scanner" class="m-auto"></div>
-        <div id="output"></div>
-
+        <!-- Title -->
         <h2 class="text-4xl font-bold my-4">Manage Inventory</h2>
         <button onclick="scan_barcode()" class="block md:hidden bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">Scan barcode</button>
         <!-- Management dashboard -->
@@ -129,7 +126,7 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="amount">Amount</label>
-                        <input class="border border-gray-800 rounded-md" type="text" name="amount" id="amount_field">
+                        <input class="border border-gray-800 rounded-md" type="number" name="amount" id="amount_field" value="1">
                     </div>
                     <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded-md mt-4" type="submit" name="edit">Add stock</button>
                 </form>    
