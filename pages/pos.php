@@ -40,10 +40,13 @@
                 $bought= $row["amount"];
                 $stock = (int) $conn->query("SELECT stock FROM products WHERE code=$product_code")->fetch_assoc()["stock"];
                 $price = (int) $conn->query("SELECT price FROM products WHERE code=$product_code")->fetch_assoc()["price"];
-                $revenue =$row["amount"] * $price;
+                $sold_amount = (int) $conn->query("SELECT sold_amount FROM products WHERE code=$product_code")->fetch_assoc()["sold_amount"];
+                $sold_revenue = (int) $conn->query("SELECT sold_revenue FROM products WHERE code=$product_code")->fetch_assoc()["sold_revenue"];
+
+                $revenue = $row["amount"] * $price;
                 $conn->query("UPDATE products SET stock=$stock-$bought WHERE code=$product_code");
-                $conn->query("UPDATE products SET sold_amount =+ $bought WHERE code=$product_code");
-                $conn->query("UPDATE products SET sold_revenue =+ $revenue WHERE code=$product_code");
+                $conn->query("UPDATE products SET sold_amount = $sold_amount + $bought WHERE code=$product_code");
+                $conn->query("UPDATE products SET sold_revenue = $sold_revenue + $revenue WHERE code=$product_code");
                 $conn->query("DELETE FROM point_of_sale WHERE product_code=$product_code");
             }
             echo 'Complete';

@@ -34,7 +34,7 @@
         $cost = (int) $_REQUEST['cost'];
         $price = (int) $_REQUEST['price'];
 
-        if (empty($code) or empty($pname) or empty($stock) or empty($cost) or empty($price)) {
+        if (empty($code) or empty($pname) or empty($cost) or empty($price)) {
             echo "Please enter all fields";
         } else {
             $result = $conn->query("SELECT code FROM products WHERE code=$code");
@@ -84,6 +84,8 @@
 <div class="flex flex-col mx-4 p-4 text-lg h-full">
     <div id="barcode_scanner" class="w-90 h-56 block md:hidden overflow-hidden relative border-4"></div>
     <h1 class="text-4xl font-bold my-4">Advanced Management</h1>
+    <button onclick="scan_barcode()" class="block md:hidden bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">Scan barcode</button>
+
 <form class="flex flex-col" action="create.php" method="post">
     <h2 class="text-3xl font-bold">Create/Edit Product</h2>
     <div class="flex flex-col">
