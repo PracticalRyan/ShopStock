@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 
+<!-- Initialize database connection -->
+<?php
+    $servername = "db";
+    $username = "root";
+    $password = "mariadb";
+    $database = "shopstock"; 
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
+    // Check connection
+    if ($conn->connect_error) {
+    die("Connection failed, please check your database connection before continuing: \n" . $conn->connect_error);
+  }
+?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,26 +57,44 @@
     <h2 class="text-4xl font-bold my-16">Hello, User</h2>
     <!-- Insight cards -->
     <h3 class="text-3xl font-bold my-3">Insights</h3>
-
     <div class="grid grid-cols-3 gap-x-2">
-      <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+    <?php
+    // Get bestselling product
+      $sql = "SELECT name, sold_amount FROM products ORDER BY sold_amount DESC";
+      $bestseller = mysqli_query($conn, $sql);
+      // Show fields
+      if (mysqli_num_rows($bestseller) > 0) {
+        $first_key = mysqli_fetch_assoc($bestseller);
+        echo("<a class=\"block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100\">");
+        echo("<h5 class=\"mb-2 text-2xl font-bold tracking-tight text-green-600\">Best Seller</h5>");
+        echo('<p class="font-normal text-gray-700\">Your best selling product is ' . $first_key["name"] . ' with ' . $first_key["sold_amount"] . ' sold</p>');
+        echo('</a>');
+          
+      } else {
+        echo("<a class=\"block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100\">");
+        echo("<h5 class=\"mb-2 text-2xl font-bold tracking-tight text-gray-900\">Learning...</h5>");
+        echo('<p class="font-normal text-gray-700\">Please wait while we collect the data</p>');
+        echo('</a>');        
+      }
+      $sql = "SELECT name, stock FROM products WHERE stock < 30 ORDER BY stock ASC";
+      $low_stock = mysqli_query($conn, $sql);
 
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Learning...</h5>
-        <p class="font-normal text-gray-700">Make sure you have added data in the manage page in the navigation bar above!</p>
-      </a>
-
-      <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Learning...</h5>
-        <p class="font-normal text-gray-700">The data is being analyzed, check back later.</p>
-      </a>
-
-      <a href="#" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Learning...</h5>
-        <p class="font-normal text-gray-700">Just one moment! We are trying our best to sift through the data.</p>
-      </a>
-    </div>
+      if (mysqli_num_rows($low_stock) > 0) {
+        $first_key = mysqli_fetch_assoc($low_stock);
+        echo("<a class=\"block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100\">");
+        echo("<h5 class=\"mb-2 text-2xl font-bold tracking-tight text-gray-900 text-yellow-600\">Warning</h5>");
+        echo('<p class="font-normal text-gray-700\">The product ' . $first_key["name"] . ' needs restocking with only ' . $first_key["stock"] . ' left.</p>');
+        echo('</a>');
+          
+      } else {
+        echo("<a class=\"block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100\">");
+        echo("<h5 class=\"mb-2 text-2xl font-bold tracking-tight text-gray-900\">Learning...</h5>");
+        echo('<p class="font-normal text-gray-700\">Please wait while we collect the data</p>');
+        echo('</a>');        
+      }
+      ?>    
+      </div>
+      
     <!-- Data segments -->
     <h3 class="text-3xl font-bold mb-3 mt-6">Data</h3>
     <div class="grid grid-cols-8 gap-x-2">

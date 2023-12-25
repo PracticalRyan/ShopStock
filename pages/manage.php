@@ -34,8 +34,13 @@
         if (empty($pcode) or empty($amount)) {
             echo "Please enter all fields";
         } else {
-            $initial = (int) $conn->query("SELECT stock FROM products WHERE code=$pcode")->fetch_assoc()["stock"] ;
+            $product = $conn->query("SELECT stock, cost FROM products WHERE code=$pcode");
+            $initial = (int) $product->fetch_assoc()["stock"];
+            $cost = (int) $conn->query("SELECT stock, cost FROM products WHERE code=$pcode")->fetch_assoc()["cost"];
+            $total_cost = $amount*$cost;
             $sql = "UPDATE products SET stock=$amount+$initial WHERE code=$pcode";
+            $conn->query("UPDATE products SET bought_amount =+ $amount WHERE code=$pcode");
+            $conn->query("UPDATE products SET bought_cost =+ $total_cost WHERE code=$pcode");
         }
 
         // Check if query was successful

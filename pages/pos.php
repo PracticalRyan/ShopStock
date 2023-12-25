@@ -38,10 +38,14 @@
                 $product_code = $row["product_code"];
                 $bought= $row["amount"];
                 $stock = (int) $conn->query("SELECT stock FROM products WHERE code=$product_code")->fetch_assoc()["stock"];
+                $price = (int) $conn->query("SELECT price FROM products WHERE code=$product_code")->fetch_assoc()["price"];
+                $revenue =$row["amount"] * $price;
                 $conn->query("UPDATE products SET stock=$stock-$bought WHERE code=$product_code");
+                $conn->query("UPDATE products SET sold_amount =+ $bought WHERE code=$product_code");
+                $conn->query("UPDATE products SET sold_revenue =+ $revenue WHERE code=$product_code");
                 $conn->query("DELETE FROM point_of_sale WHERE product_code=$product_code");
             }
-            echo 'complete';
+            echo 'Complete';
         }
         else {
             // collect value of input field
