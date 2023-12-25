@@ -1,7 +1,6 @@
 function navbarclicked() {
   const navitems = document.getElementById("navitems");
   navitems.classList.toggle("hidden");
-  document.getElementById("pcode_field").value = "test1";
 }
 
 function generate_promptpay() {
@@ -11,26 +10,28 @@ function generate_promptpay() {
 }
 
 function scan_barcode() {
+  var lastResult = "";
   Quagga.init(
     {
+      locate: true,
       inputStream: {
         name: "Live",
         type: "LiveStream",
         target: document.querySelector("#barcode_scanner"),
-      },
-      constraints: {
-        width: 300,
-        height: 300,
+        constraints: {
+          width: 640,
+          height: 480,
+        },
       },
       decoder: {
         readers: ["ean_reader"],
+        patchSize: "x-small",
         debug: {
-          drawBoundingBox: true,
+          drawBoundingBox: false,
           showFrequency: false,
-          drawScanline: true,
+          drawScanline: false,
           showPattern: true,
         },
-        multiple: false,
       },
     },
     function (err) {
@@ -43,13 +44,21 @@ function scan_barcode() {
     }
   );
 
-  Quagga.onDetected(function (data) {
-    replace_pcode_field(data.codeResult.code);
-    document.querySelector("#viewport").replaceChildren();
-    Quagga.stop();
+  Quagga.onDetected(function (result) {
+    var code = result.codeResult.code;
+
+    if (lastResult !== code) {
+      lastResult = code;
+    } else {
+      replace_pcode_field(code);
+    }
   });
 }
 
-function replace_pcode_field(pcode) {
+var audio = new Audio("/static/beep.mp3");
+
+async function replace_pcode_field(pcode) {
   document.getElementById("pcode_field").value = pcode;
+  document.getElementById("barcode_scanner").style.borderColor = "green";
+  audio.play();
 }

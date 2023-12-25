@@ -9,6 +9,7 @@
     <script src="/static/promptpay-qr.js"></script>
     <script src="/static/promptpay.js"></script>
     <script src="/static/qrcode.js"></script>
+    <script src="/static/sounds.js" type="text/javascript"></script>
     <link href="/css/barcode.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.js"></script>
 
@@ -104,7 +105,7 @@
     </nav>
     <!-- Content container -->
     <div class="flex flex-col mx-4 p-4 text-lg h-full bg-slate-100">
-    <div id="barcode_scanner" class="w-90 h-56 block md:hidden overflow-hidden relative"></div>
+    <div id="barcode_scanner" class="w-90 h-56 block md:hidden overflow-hidden relative border-4"></div>
         <!-- Title -->
         <h2 class="text-4xl font-bold my-4">Point of Sale</h2>
         <button onclick="scan_barcode()" class="block md:hidden bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-2 rounded-md mt-4">Scan barcode</button>
