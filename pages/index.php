@@ -54,7 +54,7 @@
   <!-- Content flex container -->
   <div class="flex flex-col mx-4">
     <!-- Welcome message -->
-    <h2 class="text-4xl font-bold my-16">Hello, User</h2>
+    <h2 class="text-4xl font-bold my-16">Hello, Contoso</h2>
     <!-- Insight cards -->
     <h3 class="text-3xl font-bold my-3">Insights</h3>
     <div class="grid grid-cols-3 gap-x-2">
@@ -102,12 +102,20 @@
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Fun Fact</h5>
         <p class="font-normal text-gray-700">Did you know? 100% of our users use RaiFun to keep their busines operating smoothly and efficiently.</p>
       </a>
-      <a href="#" class="block col-span-2 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-        <p class="text-xl font-bold text-gray-700">Revenue</p>
-        <h5 class="mb-3 text-4xl font-bold tracking-tight text-green-700">1230฿</h5>
-        <p class="text-xl font-bold text-gray-700">Costs</p>
-        <h5 class="mb-3 text-4xl font-bold tracking-tight text-red-700">230฿</h5>
-      </a>
+      <?php
+        $sql = "SELECT SUM(bought_cost) AS cost, SUM(sold_revenue) AS revenue FROM products";
+        $economy = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+      
+        $costs = $economy['cost'];
+        $revenue = $economy['revenue'];
+
+        echo('<a href="#" class="block col-span-2 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">');
+        echo('<p class="text-xl font-bold text-gray-700">Revenue</p>');
+        echo('<h5 class="mb-3 text-4xl font-bold tracking-tight text-green-700">' . $revenue . '฿ </h5>');
+        echo('<p class="text-xl font-bold text-gray-700">Costs</p>');
+        echo('<h5 class="mb-3 text-4xl font-bold tracking-tight text-red-700">' . $costs . '฿</h5>');
+        echo('</a>');
+      ?>
       <a href="#" class="block col-span-3 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">History</h5>
       </a>
