@@ -28,23 +28,29 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // collect value of input field
-        $pcode = $_REQUEST['pcode'];
+        $pcode = $conn->real_escape_string(trim($_REQUEST['pcode']));
         $amount = (int) $_REQUEST['amount'];
 
         if (empty($pcode) or empty($amount)) {
             echo "Please enter all fields";
         } else {
-            $product = $conn->query("SELECT stock, cost FROM products WHERE code=$pcode");
-            $initial = (int) $product->fetch_assoc()["stock"];
-            $cost = (int) $conn->query("SELECT stock, cost FROM products WHERE code=$pcode")->fetch_assoc()["cost"];
-            $total_cost = $amount*$cost;
-            $sql = "UPDATE products SET stock=$amount+$initial WHERE code=$pcode";
-            $conn->query("UPDATE products SET bought_amount =+ $amount WHERE code=$pcode");
-            $conn->query("UPDATE products SET bought_cost =+ $total_cost WHERE code=$pcode");
+            $product = $conn->query("SELECT stock, cost FROM products WHERE code='$pcode'");
+            $product_data = $product ? $product->fetch_assoc() : null;
+
+            if ($product_data === null) {
+                echo "Product not found";
+            } else {
+                $initial = (int) $product_data["stock"];
+                $cost = (int) $product_data["cost"];
+                $total_cost = $amount * $cost;
+                $sql = "UPDATE products SET stock=$amount+$initial WHERE code='$pcode'";
+                $conn->query("UPDATE products SET bought_amount = bought_amount + $amount WHERE code='$pcode'");
+                $conn->query("UPDATE products SET bought_cost = bought_cost + $total_cost WHERE code='$pcode'");
+            }
         }
 
         // Check if query was successful
-        if ($conn->query($sql) === TRUE ) {
+        if (isset($sql) && $conn->query($sql) === TRUE ) {
             } else {
             echo "Error updating record: " . $conn->error;
             }                      

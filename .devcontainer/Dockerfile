@@ -14,5 +14,8 @@ RUN curl -sSL https://getcomposer.org/installer | php \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
-# Install mysqli
-RUN docker-php-ext-install mysqli
+# Install the database client and mysqli
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends mariadb-client \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install mysqli

@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS shopstock;
 USE shopstock;
 
 CREATE TABLE IF NOT EXISTS products (
-    code INT PRIMARY KEY,
+    code VARCHAR(32) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     stock INT NOT NULL DEFAULT 0,
     cost INT NOT NULL DEFAULT 0,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS point_of_sale (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_code INT NOT NULL,
+    product_code VARCHAR(32) NOT NULL,
     amount INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_point_of_sale_product

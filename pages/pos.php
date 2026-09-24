@@ -38,10 +38,10 @@
             while($row = mysqli_fetch_assoc($shopping_cart)) {
                 $product_code = $row["product_code"];
                 $bought= $row["amount"];
-                $stock = (int) $conn->query("SELECT stock FROM products WHERE code=$product_code")->fetch_assoc()["stock"];
-                $price = (int) $conn->query("SELECT price FROM products WHERE code=$product_code")->fetch_assoc()["price"];
-                $sold_amount = (int) $conn->query("SELECT sold_amount FROM products WHERE code=$product_code")->fetch_assoc()["sold_amount"];
-                $sold_revenue = (int) $conn->query("SELECT sold_revenue FROM products WHERE code=$product_code")->fetch_assoc()["sold_revenue"];
+                    $stock = (int) $conn->query("SELECT stock FROM products WHERE code='$product_code'")->fetch_assoc()["stock"];
+                    $price = (int) $conn->query("SELECT price FROM products WHERE code='$product_code'")->fetch_assoc()["price"];
+                    $sold_amount = (int) $conn->query("SELECT sold_amount FROM products WHERE code='$product_code'")->fetch_assoc()["sold_amount"];
+                    $sold_revenue = (int) $conn->query("SELECT sold_revenue FROM products WHERE code='$product_code'")->fetch_assoc()["sold_revenue"];
 
                 $revenue = $row["amount"] * $price;
                 $conn->query("UPDATE products SET stock=$stock-$bought WHERE code=$product_code");
@@ -53,19 +53,19 @@
         }
         else {
             // collect value of input field
-            $pcode = $_REQUEST['pcode'];
+                $pcode = $conn->real_escape_string(trim($_REQUEST['pcode']));
             $amount = (int) $_REQUEST['amount'];
 
             if (empty($pcode) or empty($amount)) {
                 echo "Please enter all fields";
             } else {
-                $result = $conn->query("SELECT amount FROM point_of_sale WHERE product_code=$pcode");
+                    $result = $conn->query("SELECT amount FROM point_of_sale WHERE product_code='$pcode'");
                 if ($result->num_rows > 0) {
                     $initial = (int) $result->fetch_assoc()["amount"];
-                    $result = $conn->query("UPDATE point_of_sale SET amount=$amount+$initial WHERE product_code=$pcode");
+                    $result = $conn->query("UPDATE point_of_sale SET amount=$amount+$initial WHERE product_code='$pcode'");
                 }
                 else {
-                    $result = $conn->query("INSERT INTO point_of_sale (product_code, amount) VALUES ($pcode, $amount)");
+                    $result = $conn->query("INSERT INTO point_of_sale (product_code, amount) VALUES ('$pcode', $amount)");
                 }
             }
 

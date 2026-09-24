@@ -28,7 +28,7 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // collect value of input field
-        $code = $_REQUEST['pcode'];
+        $code = $conn->real_escape_string(trim($_REQUEST['pcode']));
         $pname = (string) $_REQUEST['pname'];
         $stock = 0;
         $cost = (int) $_REQUEST['cost'];
@@ -37,7 +37,7 @@
         if (empty($code) or empty($pname) or empty($cost) or empty($price)) {
             echo "Please enter all fields";
         } else {
-            $result = $conn->query("SELECT code FROM products WHERE code=$code");
+            $result = $conn->query("SELECT code FROM products WHERE code='$code'");
             if (mysqli_num_rows($result) > 0) {
                 $sql = "UPDATE products SET name='$pname', stock='$stock', cost='$cost', price='$price' WHERE code='$code'";
             }
